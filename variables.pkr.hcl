@@ -7,7 +7,7 @@ variable "pm_host" {
 
 variable "pm_api_username" {
   type        = string
-  description = "Proxmox API username. When using API key, the format would be e.g. 'packer@pve!packer'."
+  description = "Proxmox API username. Example: 'packer@pve', 'root@pam'. When using API key: 'packer@pve!packer_api_key_label'."
 }
 
 variable "pm_api_password" {
@@ -109,18 +109,33 @@ variable "bios" {
   type        = string
   default     = "seabios"
   description = "Choose the machine BIOS: 'ovmf', 'seabios'."
+
+  validation {
+    condition     = contains(["ovmf", "seabios"], var.bios)
+    error_message = "The bios configuration is invalid."
+  }
 }
 
 variable "machine" {
   type        = string
   default     = "i440fx"
   description = "Choose the machine type: 'i440fx', 'q35'."
+
+  validation {
+    condition     = contains(["i440fx", "q35"], var.machine)
+    error_message = "The machine type is invalid."
+  }
 }
 
 variable "scsi_controller" {
   type        = string
   default     = "virtio-scsi-single"
   description = "The SCSI controller model to emulate: lsi, lsi53c810, virtio-scsi-pci, virtio-scsi-single, megasas, pvscsi."
+
+  validation {
+    condition     = contains(["lsi", "lsi53c810", "virtio-scsi-pci", "virtio-scsi-single", "megasas", "pvscsi"], var.scsi_controller)
+    error_message = "The SCSI controller model is invalid."
+  }
 }
 
 # -- Template disk variables -- #
@@ -147,12 +162,22 @@ variable "disk_cache_mode" {
   type        = string
   default     = "none"
   description = "How to cache operations to the default disk. Can be 'none', 'writethrough', 'writeback', 'unsafe' or 'directsync'."
+
+  validation {
+    condition     = contains(["none", "writethrough", "writeback", "unsafe", "directsync"], var.disk_cache_mode)
+    error_message = "The disk cache mode is invalid."
+  }
 }
 
 variable "disk_format" {
   type        = string
   default     = "raw"
   description = "The format of the default disk: 'raw', 'cow', 'qcow', 'qed', 'qcow2', 'vmdk', 'cloop'."
+
+  validation {
+    condition     = contains(["raw", "cow", "qcow", "qed", "qcow2", "vmdk", "cloop"], var.disk_format)
+    error_message = "The default disk format is invalid."
+  }
 }
 
 variable "disk_io_thread" {
@@ -165,6 +190,11 @@ variable "disk_type" {
   type        = string
   default     = "virtio"
   description = "The type of the default disk: 'scsi', 'sata', 'virtio', 'ide'."
+
+  validation {
+    condition     = contains(["scsi", "sata", "virtio", "ide"], var.disk_type)
+    error_message = "The default disk type is invalid."
+  }
 }
 
 # -- Template NIC variables -- #
@@ -185,6 +215,11 @@ variable "nic_model" {
   type        = string
   default     = "virtio"
   description = "The model of the default NIC."
+
+  validation {
+    condition     = contains(["rtl8139", "ne2k_pci", "e1000", "pcnet", "virtio", "ne2k_isa", "i82551", "i82557b", "i82559er", "vmxnet3", "e1000-82540em", "e1000-82544gc", "e1000-82545em"], var.nic_model)
+    error_message = "The default NIC model is invalid."
+  }
 }
 
 variable "nic_vlan" {
