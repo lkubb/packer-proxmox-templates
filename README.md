@@ -97,6 +97,8 @@ pm_api_key = "0a1b2c3d-4e5f-678a-9b0c1-d2e3f4a5b6c7"
 pm_api_password = null
 # The target node the template will be built on.
 pm_node = "pve1"
+# ssh key of default admin user
+ssh_key = "ssh-dsa ..."
 ```
 
 ### Optional
@@ -139,6 +141,12 @@ nic_bridge = "vmbr0"
 nic_firewall = false
 # The model of the default NIC.
 nic_model = "virtio"
+# The VGA type: cirrus, none, qxl, qxl2, qxl3, qxl4, serial0, serial1, serial2, serial3, std, virtio, vmware
+vga_type = "serial0"
+# VGA memory in MiB. Note: this is superfluous when using a serial console.
+vga_memory = 64
+# The default admin username.
+default_username = "debian"
 ```
 
 ## Running
@@ -160,3 +168,39 @@ After all the configuration, building the template is easily done:
 ```bash
 packer build -var-file my.pkrvars.hcl .
 ```
+
+Mind that the Packer Proxmox plugin currently does not provide a way to overwrite an existing template, so to regenerate your template with the same ID, you will need to delete it manually before running the above command.
+
+### Manual post-processing
+
+Currently, [there is no way to add a serial port](https://github.com/hashicorp/packer-plugin-proxmox/issues/41) to the template using the Packer Proxmox plugin. In the default configuration, that is necessary since VGA is set to `serial0`. You will need to create this one manually.
+
+## Flow
+This is a short overview of the build steps:
+
+1. Downloads ISO if no local one was specified
+2. Creates VM as specified
+3. Uses preseed.cfg to automate the installation of Debian. Note:
+
+    * adds necessary packages: `qemu-guest-agent`, `cloud-init`, `vim` (!)
+    * adds `root` user with password `packer`
+    * allows ssh password auth for `root` (temporarily for provisioning)
+
+4. Configures grub (adds `console=ttyS0`, `elevator=none`, no timeout)
+5. Adds sysconfig (`vm.swappiness = 1`)
+6. Updates & upgrades system, cleans cloud-init and apt cache
+7. Sets basic cloud-init config:
+
+    * by default mostly Debian default with some changes (see `scripts/cloud-init.sh`)
+    * possibility to change the default admin username
+    * ssh key setup for default admin user
+    * Proxmox specifics
+
+8. Locks root account
+9. Prohibits ssh root login
+10. Shuts down VM and converts it to a template
+
+When logging in for the first time, you should set a password for your user (`sudo passwd <username>` is needed) and remove passwordless sudo.
+
+## Todo
+- check https://github.com/kwilczynski/packer-templates/blob/899646c9504d5d0e0da2794223a7113d4e13f20c/scripts/common/update.sh

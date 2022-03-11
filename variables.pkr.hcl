@@ -250,3 +250,36 @@ variable "nic_queues" {
 #     }
 #   ]
 # }
+
+# -- vga -- #
+
+variable "vga_type" {
+  type        = string
+  # https://gist.github.com/KrustyHack/fa39e509b5736703fb4a3d664157323f#prepare-cloud-init-templates
+  # "We also want to configure a serial console and use that as display. Many Cloud-Init images rely on that, because it is an requirement for OpenStack images."
+  default     = "serial0"
+  description = "The type of display to virtualize. Options: cirrus, none, qxl, qxl2, qxl3, qxl4, serial0, serial1, serial2, serial3, std, virtio, vmware."
+  validation {
+    condition     = contains(["cirrus", "none", "qxl", "qxl2", "qxl3", "qxl4", "serial0", "serial1", "serial2", "serial3", "std", "virtio", "vmware"], var.vga_type)
+    error_message = "The VGA type is invalid."
+  }
+}
+
+variable "vga_memory" {
+  type        = number
+  default     = 64
+  description = "Sets the VGA memory (in MiB). Has no effect with serial display type."
+}
+
+# -- cloud-init defaults -- #
+
+variable "default_username" {
+  type        = string
+  default     = "debian"
+  description = "The name of the default admin user created by cloud-init: has passwordless sudo, ssh pubkey auth."
+}
+
+variable "ssh_key" {
+  type        = string
+  description = "A single SSH pubkey for the default user's authorized_keys. Required since the template will be locked down."
+}

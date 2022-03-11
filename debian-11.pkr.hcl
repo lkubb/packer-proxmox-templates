@@ -45,6 +45,10 @@ source "proxmox-iso" "debian11" {
   token                = var.pm_api_key
   unmount_iso          = true
   username             = var.pm_api_username
+  vga {
+    type   = var.vga_type
+    memory = var.vga_memory
+  }
   vm_id                = var.vm_id
   vm_name              = "packer-debian-${var.debian_version}-amd64"
 }
@@ -56,11 +60,23 @@ build {
   sources = ["source.proxmox-iso.debian11"]
 
   provisioner "shell" {
+    environment_vars = [
+      "DEFAULT_USERNAME=${var.default_username}",
+      "SSH_KEY=${var.ssh_key}",
+    ]
+    scripts = [
+      "scripts/grub.sh",
+      "scripts/sysconfig.sh",
+      "scripts/upgrade_clean.sh",
+      "scripts/cloud-init.sh",
+    ]
+  }
+
+  # disable root login (cloud-init seems not to work somehow)
+  provisioner "shell" {
     inline = [
-      "apt-get -y update && apt-get -y dist-upgrade",
-      "apt-get -y autoremove --purge",
-      "apt-get -y clean",
-      "cloud-init clean",
+      "passwd -l root",
+      "sed -e 's/PermitRootLogin yes/PermitRootLogin no/' -i /etc/ssh/sshd_config",
     ]
   }
 }

@@ -10,6 +10,8 @@ pm_api_key = "0a1b2c3d-4e5f-678a-9b0c1-d2e3f4a5b6c7"
 pm_api_password = null
 # The target node the template will be built on.
 pm_node = "pve1"
+# ssh key of default admin user
+ssh_key = "ssh-dsa ..."
 
 # -- OPTIONAL -- #
 
@@ -48,3 +50,9 @@ nic_bridge = "vmbr0"
 nic_firewall = false
 # The model of the default NIC.
 nic_model = "virtio"
+# The VGA type: cirrus, none, qxl, qxl2, qxl3, qxl4, serial0, serial1, serial2, serial3, std, virtio, vmware
+vga_type = "serial0"
+# VGA memory in MiB. Note: this is superfluous when using a serial console.
+vga_memory = 64
+# The default admin username.
+default_username = "debian"
