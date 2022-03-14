@@ -48,6 +48,12 @@ d-i passwd/root-password-again password packer
 d-i clock-setup/utc boolean true
 d-i time/zone string US/Eastern
 d-i clock-setup/ntp boolean true
+# the example chooses lvm - this will currently prevent
+# cloud-init from automatically resizing the root disk
+# this is done with runcmd config (see cloud-init.sh)
+# another method would be to use regular method and
+# a custom partman-auto/expert_recipe
+# to put the root partition last (by default swap is last)
 d-i partman-auto/method string lvm
 d-i partman-auto-lvm/guided_size string max
 d-i partman-lvm/device_remove_lvm boolean true

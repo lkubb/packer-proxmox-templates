@@ -63,6 +63,7 @@ build {
     environment_vars = [
       "DEFAULT_USERNAME=${var.default_username}",
       "SSH_KEY=${var.ssh_key}",
+      "DISK_NAME=${local.diskname}",
     ]
     scripts = [
       "scripts/grub.sh",

@@ -24,22 +24,7 @@ cat <<'EOF' > /etc/cloud/cloud.cfg
 
 users:
   - default
-EOF
 
-# cat <<EOF >> /etc/cloud/cloud.cfg
-# users:
-#   - name: ${DEFAULT_USERNAME}
-#     gecos: ${DEFAULT_USERNAME}
-#     groups: [adm, audio, cdrom, dialout, dip, floppy, netdev, plugdev, sudo, video]
-#     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
-#     shell: /bin/bash
-#     lock_passwd: false
-#     ssh_authorized_keys:
-#       - "${SSH_KEY}"
-
-# EOF
-
-cat <<'EOF' >> /etc/cloud/cloud.cfg
 # If this is set, 'root' will not be able to ssh in and they
 # will get a message to login instead as the above $user (debian)
 disable_root: true
@@ -51,6 +36,26 @@ preserve_hostname: false
 # which has been a source of surprise.
 apt_preserve_sources_list: true
 
+EOF
+
+cat <<EOF >> /etc/cloud/cloud.cfg
+growpart:
+  mode: "growpart"
+  # since default setup creates an extended partition,
+  # we need to resize it along with the lvm one
+  devices:
+    - "/dev/${DISK_NAME}2"
+    - "/dev/${DISK_NAME}5"
+
+# cloud-init does not handle resizing of lvm atm
+runcmd:
+  - [ cloud-init-per, once, grow_VG, pvresize, /dev/${DISK_NAME}5 ]
+  - [ cloud-init-per, once, grow_LV, lvextend, -l, +100%FREE, /dev/debian-vg/root ]
+  - [ cloud-init-per, once, grow_FS, resize2fs, /dev/debian-vg/root ]
+
+EOF
+
+cat <<'EOF' >> /etc/cloud/cloud.cfg
 # Example datasource config
 # datasource:
 #    Ec2:
