@@ -68,7 +68,8 @@ build {
     scripts = [
       "scripts/grub.sh",
       "scripts/sysconfig.sh",
-      "scripts/upgrade_clean.sh",
+      "scripts/upgrade.sh",
+      "scripts/clean.sh",
       "scripts/cloud-init.sh",
     ]
   }
