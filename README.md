@@ -1,4 +1,13 @@
 # Packer for Proxmox
+## Cloud-init Caveats
+### Bootcmd and autogrow
+- Runtime configuration is drawn from multiple sources. If more than one is available, the one with the highest priority is selected, [no merging is applied](https://github.com/canonical/cloud-init/blob/fca5bb77c251bea6ed7a21e9b9e0b320a01575a9/cloudinit/sources/DataSourceNoCloud.py#L363-L380). There is a fallback to a seed directory commonly found in `/var/lib/cloud/seed/nocloud`.
+- I'm not entirely whether an existing `vendor-data` seed will be preserved when a higher priority datasource does not expose one since Proxmox always presents one, even if it has not been configured ([in that case it's empty](https://github.com/proxmox/qemu-server/blob/d8a7e9e881e29c899920657f98a0047d9d63abed/PVE/QemuServer/Cloudinit.pm#L490-L505)).
+- Multiple separate source trees exist (relevant here: `user-data`, `vendor-data`, `cfg`). If one root key (eg `bootcmd`) is found in multiple sources, again the one with the highest priority is selected, no merging is applied (`user-data` having the highest). Merging configuration only works inside one tree.
+
+This template is preconfigured to automatically grow the root partition (via `cloud.cfg`, see `seed/cloud-init.sh`). Since `cloud-init` does not support growing LVM partitions atm, it needs to set a `bootcmd`. The combination of both behaviors above results in a tradeoff for this template:
+
+If you want to set `bootcmd` in your user-data, it will overwrite the preconfigured commands and the **volume will not grow automatically**. There is no workaround for this behavior inside the scope of `cloud-init` and this packer template alone since a seed for `user-data` would be disregarded anyway once Proxmox presents its configuration. Fix by including the relevant commands in your userdata.
 
 ## Preparation
 
