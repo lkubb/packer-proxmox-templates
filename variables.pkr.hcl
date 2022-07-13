@@ -283,3 +283,9 @@ variable "ssh_key" {
   type        = string
   description = "A single SSH pubkey for the default user's authorized_keys. Required since the template will be locked down."
 }
+
+variable "backports" {
+  type       = bool
+  default    = true
+  description = "Activate Bullseye backports repository."
+}

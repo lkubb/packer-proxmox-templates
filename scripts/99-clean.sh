@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -eux
 
 apt-get -y autoremove --purge
 apt-get -y clean
@@ -11,5 +11,10 @@ rm -rf /var/tmp/*
 
 find /var/log/ -name *.log -exec rm -f {} \;
 rm -f /root/.bash_history
+
+dd if=/dev/zero of=/EMPTY bs=1M || true
+rm -f /EMPTY
+
+sync
 
 # @TODO more cleanup probably

@@ -64,13 +64,14 @@ build {
       "DEFAULT_USERNAME=${var.default_username}",
       "SSH_KEY=${var.ssh_key}",
       "DISK_NAME=${local.diskname}",
+      "BACKPORTS=%{ if var.backports }yes%{ else }no%{ endif }"
     ]
     scripts = [
-      "scripts/grub.sh",
-      "scripts/sysconfig.sh",
-      "scripts/upgrade.sh",
-      "scripts/clean.sh",
-      "scripts/cloud-init.sh",
+      "scripts/05-grub.sh",
+      "scripts/10-sysconfig.sh",
+      "scripts/30-upgrade.sh",
+      "scripts/50-cloud-init.sh",
+      "scripts/99-clean.sh",
     ]
   }
 
