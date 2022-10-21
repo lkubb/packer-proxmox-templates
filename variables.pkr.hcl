@@ -45,7 +45,7 @@ variable "ssh_timeout" {
 
 variable "debian_version" {
   type        = string
-  default     = "11.2.0"
+  default     = "11.5.0"
   description = "Latest version of the Debian CD netinstaller ISO. Unnecessary when specifying iso_file and iso_checksum."
 }
 

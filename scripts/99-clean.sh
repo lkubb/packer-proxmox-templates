@@ -18,3 +18,5 @@ rm -f /EMPTY
 sync
 
 # @TODO more cleanup probably
+# https://github.com/DanHam/packer-virt-sysprep
+# https://github.com/DanHam/packer-virt-sysprep-example
