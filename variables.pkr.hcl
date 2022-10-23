@@ -39,7 +39,7 @@ variable "pm_skip_tls_verify" {
 
 variable "ssh_timeout" {
   type        = string
-  default     = "5m"
+  default     = "15m"
   description = "How long to wait for an SSH connection before cancelling (without QEMU guest agent, this is how long the build can take)."
 }
 
