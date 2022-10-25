@@ -37,7 +37,7 @@ source "proxmox-iso" "debian11" {
   proxmox_url          = "https://${var.pm_host}/api2/json"
   scsi_controller      = var.scsi_controller
   sockets              = "1"
-  ssh_password         = "packer"
+  ssh_password         = local.root_password
   ssh_timeout          = var.ssh_timeout
   ssh_username         = "root"
   template_description = "Debian ${var.debian_version} template. Built on {{ isotime \"2006-01-02T15:04:05Z\" }}"
@@ -51,35 +51,4 @@ source "proxmox-iso" "debian11" {
   }
   vm_id                = var.vm_id
   vm_name              = "packer-debian-${var.debian_version}-amd64"
-}
-
-# a build block invokes sources and runs provisioning steps on them. The
-# documentation for build blocks can be found here:
-# https://www.packer.io/docs/templates/hcl_templates/blocks/build
-build {
-  sources = ["source.proxmox-iso.debian11"]
-
-  provisioner "shell" {
-    environment_vars = [
-      "DEFAULT_USERNAME=${var.default_username}",
-      "SSH_KEY=${var.ssh_key}",
-      "DISK_NAME=${local.diskname}",
-      "BACKPORTS=%{ if var.backports }yes%{ else }no%{ endif }"
-    ]
-    scripts = [
-      "scripts/05-grub.sh",
-      "scripts/10-sysconfig.sh",
-      "scripts/30-upgrade.sh",
-      "scripts/50-cloud-init.sh",
-      "scripts/99-clean.sh",
-    ]
-  }
-
-  # disable root login (cloud-init seems not to work somehow)
-  provisioner "shell" {
-    inline = [
-      "passwd -l root",
-      "sed -e 's/PermitRootLogin yes/PermitRootLogin no/' -i /etc/ssh/sshd_config",
-    ]
-  }
 }

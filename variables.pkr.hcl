@@ -289,3 +289,35 @@ variable "backports" {
   default    = true
   description = "Activate Bullseye backports repository."
 }
+
+# -- OS settings -- #
+variable "root_password" {
+  type        = string
+  sensitive   = true
+  default     = null
+  description = "The password of the root user account, which will be disabled after setup. If unspecified, will generate a random one."
+}
+
+variable "language" {
+  type        = string
+  default     = "en"
+  description = "The system language to set. Two letters, lower case."
+}
+
+variable "country" {
+  type        = string
+  default     = "US"
+  description = "The country to set. Two letters, upper case."
+}
+
+variable "keymap" {
+  type        = string
+  default     = "us"
+  description = "The X (keyboard) layout to use, see man setxkbmap."
+}
+
+variable "timezone" {
+  type        = string
+  default     = "UTC"
+  description = "The timezone to set, like Europe/London."
+}

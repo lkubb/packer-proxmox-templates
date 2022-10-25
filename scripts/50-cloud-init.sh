@@ -55,9 +55,9 @@ growpart:
 
 # cloud-init does not handle resizing of lvm atm
 runcmd:
-  - [ cloud-init-per, once, grow_VG, pvresize, /dev/${DISK_NAME}5 ]
-  - [ cloud-init-per, once, grow_LV, lvextend, -l, +100%FREE, /dev/debian-vg/root ]
-  - [ cloud-init-per, once, grow_FS, resize2fs, /dev/debian-vg/root ]
+  - pvresize /dev/${DISK_NAME}5
+  - lvextend -l +100%FREE /dev/\$(pvs --select pv_name=/dev/${DISK_NAME}5 -o vg_name --noheadings | xargs)/root
+  - resize2fs /dev/\$(pvs --select pv_name=/dev/${DISK_NAME}5 -o vg_name --noheadings | xargs)/root
 
 EOF
 

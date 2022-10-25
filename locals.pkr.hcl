@@ -6,4 +6,5 @@ locals {
     ide     = "hda"
   }
   diskname = local.disk_type_name_mapping[var.disk_type]
+  root_password = coalesce(var.root_password, uuidv4())
 }
