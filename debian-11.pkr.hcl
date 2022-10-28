@@ -41,7 +41,7 @@ source "proxmox-iso" "debian11" {
   ssh_timeout          = var.ssh_timeout
   ssh_username         = "root"
   template_description = "Debian ${var.debian_version} template. Built on {{ isotime \"2006-01-02T15:04:05Z\" }}"
-  template_name        = "packer-debian-${var.debian_version}-amd64"
+  template_name        = "debian${ split(".", var.debian_version)[0] }"
   token                = var.pm_api_key
   unmount_iso          = true
   username             = var.pm_api_username
@@ -50,5 +50,5 @@ source "proxmox-iso" "debian11" {
     memory = var.vga_memory
   }
   vm_id                = var.vm_id
-  vm_name              = "packer-debian-${var.debian_version}-amd64"
+  vm_name              = "debian${ split(".", var.debian_version)[0] }"
 }
