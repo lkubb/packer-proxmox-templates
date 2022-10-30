@@ -50,5 +50,5 @@ source "proxmox-iso" "debian11" {
     memory = var.vga_memory
   }
   vm_id                = var.vm_id
-  vm_name              = "debian${ split(".", var.debian_version)[0] }"
+  vm_name              = "packer-debian-${var.debian_version}-amd64"
 }
