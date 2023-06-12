@@ -12,16 +12,16 @@ build {
       "BACKPORTS=%{ if var.backports }yes%{ else }no%{ endif }"
     ]
     scripts = [
-      "scripts/05-grub.sh",
-      "scripts/10-sysconfig.sh",
-      "scripts/30-upgrade.sh",
-      "scripts/50-cloud-init.sh",
-      "scripts/99-clean.sh",
+      "${path.root}/../scripts/05-grub.sh",
+      "${path.root}/../scripts/10-sysconfig.sh",
+      "${path.root}/../scripts/30-upgrade.sh",
+      "${path.root}/../scripts/50-cloud-init.sh",
+      "${path.root}/../scripts/99-clean.sh",
     ]
   }
 
   provisioner "file" {
-    content = templatefile("${path.root}/files/50_growpart_lvm.cfg", {
+    content = templatefile("${path.root}/../files/50_growpart_lvm.cfg", {
       diskname = local.diskname
     })
     destination = "/etc/cloud/cloud.cfg.d/50_growpart_lvm.cfg"
@@ -29,7 +29,7 @@ build {
   }
 
   provisioner "file" {
-    content = templatefile("${path.root}/files/50_override_default_user.cfg", {
+    content = templatefile("${path.root}/../files/50_override_default_user.cfg", {
       default_username = var.default_username
       ssh_keys         = [var.ssh_key]
     })
@@ -39,14 +39,14 @@ build {
 
   provisioner "file" {
     sources = [
-      "${path.root}/files/99_pve.cfg",
+      "${path.root}/../files/99_pve.cfg",
     ]
     destination = "/etc/cloud/cloud.cfg.d/"
     only        = ["proxmox-iso.debian11"]
   }
 
   provisioner "file" {
-    source = "${path.root}/files/grow_root.sh"
+    source = "${path.root}/../files/grow_root.sh"
     destination = "/usr/local/sbin/grow_root"
     only        = ["proxmox-iso.debian11"]
   }

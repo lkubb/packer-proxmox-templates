@@ -46,7 +46,7 @@ source "proxmox-iso" "fedora38" {
     storage_pool_type = var.disk_pool_type
     type              = var.disk_type
   }
-  http_directory           = "./seed"
+  http_directory           = "${path.root}/seed"
   insecure_skip_tls_verify = var.pm_skip_tls_verify
   iso_checksum             = local.iso_checksum
   iso_file                 = var.iso_file
