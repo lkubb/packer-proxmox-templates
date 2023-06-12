@@ -31,7 +31,7 @@ source "proxmox-iso" "debian11" {
   }
   http_directory      = "${path.root}/seed"
   insecure_skip_tls_verify = var.pm_skip_tls_verify
-  iso_checksum        = var.iso_checksum
+  iso_checksum        = local.iso_checksum
   iso_file            = var.iso_file
   iso_storage_pool    = var.iso_storage_pool
   iso_url             = "https://cdimage.debian.org/mirror/cdimage/archive/${var.os_version}/amd64/iso-cd/debian-${var.os_version}-amd64-netinst.iso"
