@@ -1,6 +1,18 @@
+locals {
+  disk_type_name_mapping = {
+    scsi   = "sda"
+    sata   = "sda"
+    virtio = "vda"
+    ide    = "hda"
+  }
+  diskname      = local.disk_type_name_mapping[var.disk_type]
+  iso_checksum  = coalesce(var.iso_checksum, "file:https://download.rockylinux.org/pub/rocky/${var.rocky_version}/isos/x86_64/Rocky-x86_64-minimal.iso.CHECKSUM")
+  root_password = coalesce(var.root_password, uuidv4())
+}
+
 source "proxmox-iso" "rocky9" {
   boot_command = [
-    "<tab> text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>",
+    "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>",
   ]
   boot_wait               = "10s"
   cloud_init              = var.cloud_init

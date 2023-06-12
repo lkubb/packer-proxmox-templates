@@ -6,11 +6,11 @@ set -e
 export PATH='/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'
 
 
-KERNEL_OPTIONS=(
-    'systemd.journald.forward_to_console=1'
-    'console=ttyS0,38400'
-    'console=tty1'
-)
+# KERNEL_OPTIONS=(
+#     'systemd.journald.forward_to_console=1'
+#     'console=ttyS0,38400'
+#     'console=tty1'
+# )
 
 grep "GRUB_TERMINAL=" /etc/default/grub || echo 'GRUB_TERMINAL="serial console"' >> /etc/default/grub
 grep "GRUB_SERIAL_COMMAND=" /etc/default/grub || echo 'GRUB_SERIAL_COMMAND=""' >> /etc/default/grub
@@ -56,4 +56,4 @@ grub2-mkconfig –o /boot/grub2/grub.cfg
 
 # GRUB_CMDLINE_LINUX[_DEFAULT] did not seem to work directly,
 # probably because of GRUB_ENABLE_BLSCFG=true
-grubby --update-kernel=ALL --args="${KERNEL_OPTIONS[*]}"
+# grubby --update-kernel=ALL --args="${KERNEL_OPTIONS[*]}"

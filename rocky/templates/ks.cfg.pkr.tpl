@@ -29,7 +29,7 @@ clearpart --none --initlabel --drives=${diskname}
 ignoredisk --only-use=${diskname}
 zerombr
 autopart --nohome --type=lvm
-bootloader --location=mbr --boot-drive=${diskname}
+bootloader --location=mbr --boot-drive=${diskname} %{~ if bootargs != [] } --append="${ join(" ", bootargs) }" %{~ endif }
 
 ## Network information
 network --bootproto=dhcp --device=ens18 --activate

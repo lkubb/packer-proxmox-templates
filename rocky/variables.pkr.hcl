@@ -314,3 +314,13 @@ variable "root_password" {
   default     = null
   description = "The password of the root user account, which will be disabled after setup. If unspecified, will generate a random one."
 }
+
+variable "bootargs" {
+  type = list(string)
+  default = [
+    "systemd.journald.forward_to_console=1",
+    "console=ttyS0,38400",
+    "console=tty1",
+  ]
+  description = "List of kernel arguments (optional)"
+}

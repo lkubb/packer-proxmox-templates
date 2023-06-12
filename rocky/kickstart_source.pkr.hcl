@@ -6,6 +6,7 @@ source "file" "kickstart" {
     vconsole_keymap = var.vconsole_keymap
     keyboard_layout = var.keyboard_layout
     diskname        = local.diskname
+    bootargs        = var.bootargs
   })
   target = "${path.root}/seed/ks.cfg"
 }
