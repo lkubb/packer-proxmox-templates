@@ -2,7 +2,11 @@
 
 set -e
 
-apt-get -y install cloud-init
+if [[ "$BACKPORTS" = "yes" ]]; then
+    apt-get -y -t bullseye-backports install cloud-init net-tools
+else
+    apt-get -y install cloud-init
+fi
 
 if [[ ! -d "/etc/cloud/cloud.cfg.d" ]]; then
     mkdir -p "/etc/cloud/cloud.cfg.d"
