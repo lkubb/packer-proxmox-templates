@@ -251,7 +251,7 @@ variable "nic_queues" {
 #   ]
 # }
 
-# -- vga -- #
+# -- vga / serial -- #
 
 variable "vga_type" {
   type = string
@@ -269,6 +269,12 @@ variable "vga_memory" {
   type        = number
   default     = 64
   description = "Sets the VGA memory (in MiB). Has no effect with serial display type."
+}
+
+variable "serial_ports" {
+  type        = list(string)
+  default     = ["socket"]
+  description = "List of serial ports attached to the virtual machine (max 4). Either host device (`/dev/ttyS0`) or `socket`."
 }
 
 # -- cloud-init defaults -- #

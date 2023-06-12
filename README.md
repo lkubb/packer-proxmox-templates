@@ -92,6 +92,9 @@ nic_model = "virtio"
 vga_type = "serial0"
 # VGA memory in MiB. Note: this is superfluous when using a serial console.
 vga_memory = 64
+# List of serial ports attached to the virtual machine (max 4).
+# Either host device (`/dev/ttyS0`) or `socket`.
+serial_ports = ["socket"]
 
 # The default admin username.
 default_username = "user"
@@ -132,10 +135,6 @@ If you have set an explicit ID and a previous artifact is still present, you wil
 ```bash
 packer build -force -var-file my.pkrvars.hcl .
 ```
-
-### Manual post-processing
-
-Currently, [there is no way to add a serial port](https://github.com/hashicorp/packer-plugin-proxmox/issues/41) to the template using the Packer Proxmox plugin. In the default configuration, that is necessary since VGA is set to `serial0`. You will need to create this one manually.
 
 ## Cloud-init Caveats
 ### Bootcmd and autogrow

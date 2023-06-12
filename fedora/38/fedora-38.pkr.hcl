@@ -65,6 +65,7 @@ source "proxmox-iso" "fedora38" {
   password             = var.pm_api_password
   proxmox_url          = "https://${var.pm_host}/api2/json"
   scsi_controller      = var.scsi_controller
+  serials              = var.serial_ports
   sockets              = "1"
   ssh_password         = local.root_password
   ssh_timeout          = var.ssh_timeout
