@@ -1,3 +1,15 @@
+locals {
+  disk_type_name_mapping = {
+    scsi    = "sda"
+    sata    = "sda"
+    virtio  = "vda"
+    ide     = "hda"
+  }
+  diskname = local.disk_type_name_mapping[var.disk_type]
+  iso_checksum  = coalesce(var.iso_checksum, "file:https://cdimage.debian.org/mirror/cdimage/archive/${var.debian_version}/amd64/iso-cd/SHA512SUMS")
+  root_password = coalesce(var.root_password, uuidv4())
+}
+
 source "proxmox-iso" "debian11" {
   boot_command            = [
       "<esc><wait>",
@@ -22,7 +34,7 @@ source "proxmox-iso" "debian11" {
   iso_checksum        = var.iso_checksum
   iso_file            = var.iso_file
   iso_storage_pool    = var.iso_storage_pool
-  iso_url             = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-${var.debian_version}-amd64-netinst.iso"
+  iso_url             = "https://cdimage.debian.org/mirror/cdimage/archive/${var.debian_version}/amd64/iso-cd/debian-${var.debian_version}-amd64-netinst.iso"
   memory              = var.memory
   network_adapters {
     bridge   = var.nic_bridge
