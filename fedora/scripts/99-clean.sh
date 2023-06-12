@@ -25,6 +25,7 @@ rm -f /var/run/utmp
 find /var/log -type f -exec truncate --size=0 {} \;
 rm -f /root/anaconda-ks.cfg /root/original-ks.cfg
 rm -f /var/lib/systemd/random-seed
+rm -f /etc/resolv.conf
 
 dd if=/dev/zero of=/EMPTY bs=1M || true
 rm -f /EMPTY
