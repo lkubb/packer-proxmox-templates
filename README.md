@@ -22,7 +22,7 @@ You can add an API key for this user as well. Suppose the key's label is `packer
 
 ## Pkrvars
 
-All variables for a specific template are listed in its corresponding `variables.pkr.hcl` file. Some provide an example `my.pkrvars.example.hcl` file. If your file ends in `.auto.pkrvars.hcl`, it will be autodiscovered by packer, otherwise you will need to specify it with the `-var-file` option when running packer.
+All variables for a specific template are listed in its corresponding `variables.pkr.hcl` file. If your file ends in `.auto.pkrvars.hcl`, it will be autodiscovered by packer, otherwise you will need to specify it with the `-var-file` option when running packer.
 
 ### Required
 
