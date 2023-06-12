@@ -43,7 +43,7 @@ variable "ssh_timeout" {
   description = "How long to wait for an SSH connection before cancelling (without QEMU guest agent, this is how long the build can take)."
 }
 
-variable "debian_version" {
+variable "os_version" {
   type        = string
   default     = "11.7.0"
   description = "Latest version of the Debian CD netinstaller ISO. Unnecessary when specifying iso_file and iso_checksum."

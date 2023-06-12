@@ -43,7 +43,7 @@ variable "ssh_timeout" {
   description = "How long to wait for an SSH connection before cancelling (without QEMU guest agent, this is how long the build can take)."
 }
 
-variable "rocky_version" {
+variable "os_version" {
   type        = string
   default     = "9.0"
   description = "Version of the Rocky Linux minimal ISO. Unnecessary when specifying iso_file and iso_checksum."
