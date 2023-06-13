@@ -260,7 +260,7 @@ variable "nic_queues" {
 # -- vga / serial -- #
 
 variable "vga_type" {
-  type        = string
+  type = string
   # https://gist.github.com/KrustyHack/fa39e509b5736703fb4a3d664157323f#prepare-cloud-init-templates
   # "We also want to configure a serial console and use that as display. Many Cloud-Init images rely on that, because it is an requirement for OpenStack images."
   default     = "serial0"

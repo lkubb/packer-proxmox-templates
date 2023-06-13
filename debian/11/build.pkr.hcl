@@ -9,7 +9,7 @@ build {
 
   provisioner "shell" {
     environment_vars = [
-      "BACKPORTS=%{ if var.backports }yes%{ else }no%{ endif }"
+      "BACKPORTS=%{if var.backports}yes%{else}no%{endif}"
     ]
     scripts = [
       "${path.root}/../scripts/05-grub.sh",
@@ -47,7 +47,7 @@ build {
   }
 
   provisioner "file" {
-    source = "${path.root}/../files/grow_root.sh"
+    source      = "${path.root}/../files/grow_root.sh"
     destination = "/usr/local/sbin/grow_root"
     only        = ["proxmox-iso.debian11"]
   }

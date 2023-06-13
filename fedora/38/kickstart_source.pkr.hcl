@@ -7,7 +7,7 @@ source "file" "kickstart" {
     keyboard_layout = var.keyboard_layout
     diskname        = local.diskname
     bootargs        = var.bootargs
-    netinstall        = var.netinstall
+    netinstall      = var.netinstall
   })
   target = "${path.root}/seed/ks.cfg"
 }

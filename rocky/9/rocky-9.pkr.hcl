@@ -53,7 +53,7 @@ source "proxmox-iso" "rocky9" {
   ssh_timeout          = var.ssh_timeout
   ssh_username         = "root"
   template_description = "Rocky Linux ${var.os_version} template. Built on {{ isotime \"2006-01-02T15:04:05Z\" }}"
-  template_name        = "rocky${ split(".", var.os_version)[0] }"
+  template_name        = "rocky${split(".", var.os_version)[0]}"
   token                = var.pm_api_key
   unmount_iso          = true
   username             = var.pm_api_username

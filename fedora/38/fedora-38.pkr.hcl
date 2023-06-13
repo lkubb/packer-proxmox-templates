@@ -15,7 +15,7 @@ locals {
     [for s in local.bootcmd_grub : s if var.iso_bootloader == "grub2"],
   )
   iso_url_map = {
-    dvd = "https://download.fedoraproject.org/pub/fedora/linux/releases/38/Server/x86_64/iso/Fedora-Server-dvd-x86_64-38-1.6.iso"
+    dvd        = "https://download.fedoraproject.org/pub/fedora/linux/releases/38/Server/x86_64/iso/Fedora-Server-dvd-x86_64-38-1.6.iso"
     netinstall = "https://download.fedoraproject.org/pub/fedora/linux/releases/38/Server/x86_64/iso/Fedora-Server-netinst-x86_64-38-1.6.iso"
   }
   iso_url = var.netinstall ? local.iso_url_map["netinstall"] : local.iso_url_map["dvd"]
@@ -31,7 +31,7 @@ locals {
 }
 
 source "proxmox-iso" "fedora38" {
-  boot_command = local.boot_command
+  boot_command            = local.boot_command
   boot_wait               = "10s"
   cloud_init              = var.cloud_init
   cloud_init_storage_pool = var.cloud_init_pool

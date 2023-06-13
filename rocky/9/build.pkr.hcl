@@ -43,7 +43,7 @@ build {
   }
 
   provisioner "file" {
-    source = "${path.root}/../files/grow_root.sh"
+    source      = "${path.root}/../files/grow_root.sh"
     destination = "/usr/local/sbin/grow_root"
     only        = ["proxmox-iso.rocky9"]
   }

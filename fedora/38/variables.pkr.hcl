@@ -328,7 +328,7 @@ variable "bootargs" {
 variable "iso_bootloader" {
   type        = string
   description = "The type of bootloader on the ISO (syslinux or grub2)"
-  default = "grub2"
+  default     = "grub2"
 }
 
 variable "netinstall" {

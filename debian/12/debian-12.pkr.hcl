@@ -1,18 +1,18 @@
 locals {
   disk_type_name_mapping = {
-    scsi    = "sda"
-    sata    = "sda"
-    virtio  = "vda"
-    ide     = "hda"
+    scsi   = "sda"
+    sata   = "sda"
+    virtio = "vda"
+    ide    = "hda"
   }
-  diskname = local.disk_type_name_mapping[var.disk_type]
+  diskname      = local.disk_type_name_mapping[var.disk_type]
   root_password = coalesce(var.root_password, uuidv4())
 }
 
 source "proxmox-iso" "debian12" {
-  boot_command            = [
-      "<esc><wait>",
-      "auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"
+  boot_command = [
+    "<esc><wait>",
+    "auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"
   ]
   boot_wait               = "10s"
   cloud_init              = var.cloud_init
@@ -28,20 +28,20 @@ source "proxmox-iso" "debian12" {
     storage_pool_type = var.disk_pool_type
     type              = var.disk_type
   }
-  http_directory      = "${path.root}/seed"
+  http_directory           = "${path.root}/seed"
   insecure_skip_tls_verify = var.pm_skip_tls_verify
-  iso_checksum        = var.iso_checksum
-  iso_download_pve    = var.iso_download_pve
-  iso_file            = var.iso_file
-  iso_storage_pool    = var.iso_storage_pool
-  iso_url             = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-${var.os_version}-amd64-netinst.iso"
-  memory              = var.memory
+  iso_checksum             = var.iso_checksum
+  iso_download_pve         = var.iso_download_pve
+  iso_file                 = var.iso_file
+  iso_storage_pool         = var.iso_storage_pool
+  iso_url                  = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-${var.os_version}-amd64-netinst.iso"
+  memory                   = var.memory
   network_adapters {
-    bridge   = var.nic_bridge
-    firewall = var.nic_firewall
-    model    = var.nic_model
+    bridge        = var.nic_bridge
+    firewall      = var.nic_firewall
+    model         = var.nic_model
     packet_queues = var.nic_queues
-    vlan_tag = var.nic_vlan
+    vlan_tag      = var.nic_vlan
   }
   node                 = var.pm_node
   os                   = "l26"
@@ -54,7 +54,7 @@ source "proxmox-iso" "debian12" {
   ssh_timeout          = var.ssh_timeout
   ssh_username         = "root"
   template_description = "Debian ${var.os_version} template. Built on {{ isotime \"2006-01-02T15:04:05Z\" }}"
-  template_name        = "debian${ split(".", var.os_version)[0] }"
+  template_name        = "debian${split(".", var.os_version)[0]}"
   token                = var.pm_api_key
   unmount_iso          = true
   username             = var.pm_api_username
@@ -62,6 +62,6 @@ source "proxmox-iso" "debian12" {
     type   = var.vga_type
     memory = var.vga_memory
   }
-  vm_id                = var.vm_id
-  vm_name              = "packer-debian-${var.os_version}-amd64"
+  vm_id   = var.vm_id
+  vm_name = "packer-debian-${var.os_version}-amd64"
 }
