@@ -53,12 +53,12 @@ Optional variables vary by the exact template you're building, but the following
 # Specify OS version to build. Debian and Rocky only.
 # For the latest Debian release, if you don't have a local ISO,
 # make sure the OS version specified below is the most recent one.
-os_version = "11.7.0"
+os_version = "12.4.0"
 
 # If you have a local ISO, specify it here.
-# iso_file = "local:iso/debian-11.7.0-amd64-netinst.iso"
+# iso_file = "local:iso/debian-12.4.0-amd64-netinst.iso"
 # If you have a local ISO, specify its checksum here.
-# iso_checksum = "c685b85cf9f248633ba3cd2b9f9e781fa03225587e0c332aef2063f6877a1f0622f56d44cf0690087b0ca36883147ecb5593e3da6f965968402cdbdf12f6dd74"
+# iso_checksum = "0262488ce2cec6d95a6c9002cfba8b81ac0d1c29fe7993aa5af30f81cecad3eb66558b9d8689a86b57bf12b8cbeab1e11d128a53356b288d48e339bb003dace5"
 # Whether to skip validating the API host TLS certificate.
 pm_skip_tls_verify = true
 
