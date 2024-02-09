@@ -34,7 +34,7 @@ d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 tasksel tasksel/first multiselect standard, ssh-server
-d-i pkgsel/include string qemu-guest-agent curl vim wget
+d-i pkgsel/include string qemu-guest-agent curl net-tools vim wget
 popularity-contest popularity-contest/participate boolean false
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
