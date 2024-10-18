@@ -43,7 +43,6 @@ source "proxmox-iso" "fedora38" {
     format            = var.disk_format
     io_thread         = var.disk_io_thread
     storage_pool      = var.disk_pool
-    storage_pool_type = var.disk_pool_type
     type              = var.disk_type
   }
   http_directory           = "${path.root}/seed"

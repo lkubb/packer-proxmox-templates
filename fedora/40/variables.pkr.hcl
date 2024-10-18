@@ -146,12 +146,6 @@ variable "disk_pool" {
   description = "The storage pool for the default disk."
 }
 
-variable "disk_pool_type" {
-  type        = string
-  default     = "lvm-thin"
-  description = "The storage pool type for the default disk."
-}
-
 variable "disk_size" {
   type        = string
   default     = "5G"
