@@ -49,6 +49,7 @@ source "proxmox-iso" "fedora38" {
   http_directory           = "${path.root}/seed"
   insecure_skip_tls_verify = var.pm_skip_tls_verify
   iso_checksum             = local.iso_checksum
+  iso_download_pve         = var.iso_download_pve
   iso_file                 = var.iso_file
   iso_storage_pool         = var.iso_storage_pool
   iso_url                  = "https://download.fedoraproject.org/pub/fedora/linux/releases/38/Server/x86_64/iso/Fedora-Server-netinst-x86_64-38-1.6.iso"
@@ -70,6 +71,9 @@ source "proxmox-iso" "fedora38" {
   ssh_password         = local.root_password
   ssh_timeout          = var.ssh_timeout
   ssh_username         = "root"
+  # When we're letting Proxmox download the ISO, the download
+  # can take more time than the default API timeout of 1m
+  task_timeout         = var.iso_file == null && var.iso_download_pve ? "5m" : null
   template_description = "Fedora 38 template. Built on {{ isotime \"2006-01-02T15:04:05Z\" }}"
   template_name        = "fedora38"
   token                = var.pm_api_key

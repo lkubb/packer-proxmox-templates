@@ -6,7 +6,7 @@ locals {
     ide    = "hda"
   }
   diskname      = local.disk_type_name_mapping[var.disk_type]
-  iso_checksum  = coalesce(var.iso_checksum, "file:https://download.rockylinux.org/pub/rocky/${var.os_version}/isos/x86_64/Rocky-x86_64-minimal.iso.CHECKSUM")
+  iso_checksum  = coalesce(var.iso_checksum, "file:https://download.rockylinux.org/pub/rocky/${var.os_version}/isos/x86_64/Rocky-${var.os_version}-x86_64-minimal.iso.CHECKSUM")
   root_password = coalesce(var.root_password, uuidv4())
 }
 
@@ -31,9 +31,10 @@ source "proxmox-iso" "rocky9" {
   http_directory           = "${path.root}/seed"
   insecure_skip_tls_verify = var.pm_skip_tls_verify
   iso_checksum             = local.iso_checksum
+  iso_download_pve         = var.iso_download_pve
   iso_file                 = var.iso_file
   iso_storage_pool         = var.iso_storage_pool
-  iso_url                  = "https://download.rockylinux.org/pub/rocky/${var.os_version}/isos/x86_64/Rocky-x86_64-minimal.iso"
+  iso_url                  = "https://download.rockylinux.org/pub/rocky/${var.os_version}/isos/x86_64/Rocky-${var.os_version}-x86_64-minimal.iso"
   memory                   = var.memory
   network_adapters {
     bridge        = var.nic_bridge
@@ -52,6 +53,9 @@ source "proxmox-iso" "rocky9" {
   ssh_password         = local.root_password
   ssh_timeout          = var.ssh_timeout
   ssh_username         = "root"
+  # When we're letting Proxmox download the ISO, the download
+  # can take more time than the default API timeout of 1m
+  task_timeout         = var.iso_file == null && var.iso_download_pve ? "5m" : null
   template_description = "Rocky Linux ${var.os_version} template. Built on {{ isotime \"2006-01-02T15:04:05Z\" }}"
   template_name        = "rocky${split(".", var.os_version)[0]}"
   token                = var.pm_api_key

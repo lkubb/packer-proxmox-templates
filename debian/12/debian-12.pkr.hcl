@@ -53,6 +53,9 @@ source "proxmox-iso" "debian12" {
   ssh_password         = local.root_password
   ssh_timeout          = var.ssh_timeout
   ssh_username         = "root"
+  # When we're letting Proxmox download the ISO, the download
+  # can take more time than the default API timeout of 1m
+  task_timeout         = var.iso_file == null && var.iso_download_pve ? "5m" : null
   template_description = "Debian ${var.os_version} template. Built on {{ isotime \"2006-01-02T15:04:05Z\" }}"
   template_name        = "debian${split(".", var.os_version)[0]}"
   token                = var.pm_api_key

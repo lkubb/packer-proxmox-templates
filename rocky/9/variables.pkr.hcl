@@ -35,6 +35,12 @@ variable "pm_skip_tls_verify" {
   description = "Whether to skip validating the API host TLS certificate."
 }
 
+variable "iso_download_pve" {
+  type        = bool
+  default     = false
+  description = "Let the Proxmox server download the specified `iso_url` instead of uploading it in a second step."
+}
+
 # -- General variables -- #
 
 variable "ssh_timeout" {
