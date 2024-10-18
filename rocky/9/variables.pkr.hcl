@@ -51,7 +51,7 @@ variable "ssh_timeout" {
 
 variable "os_version" {
   type        = string
-  default     = "9.3"
+  default     = "9.4"
   description = "Version of the Rocky Linux minimal ISO. Unnecessary when specifying iso_file and iso_checksum."
 }
 
